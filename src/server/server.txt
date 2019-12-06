@@ -1,0 +1,119 @@
+import FlightSuretyApp from '../../build/contracts/FlightSuretyApp.json';
+
+import Config from './config.json';
+import Web3 from 'web3';
+import express from 'express';
+
+
+let config = Config['localhost'];
+let web3 = new Web3(new Web3.providers.WebsocketProvider(config.url.replace('http', 'ws')));
+web3.eth.defaultAccount = web3.eth.accounts[0];
+let flightSuretyApp = new web3.eth.Contract(FlightSuretyApp.abi, config.appAddress);
+
+// Flight status codes
+const STATUS_CODE_UNKNOWN           =  0;
+const STATUS_CODE_ON_TIME           = 10;
+const STATUS_CODE_LATE_AIRLINE      = 20;
+const STATUS_CODE_LATE_WEATHER      = 30;
+const STATUS_CODE_LATE_TECHNICAL    = 40;
+const STATUS_CODE_LATE_OTHER        = 50;
+const STATUSCODES                   = [ STATUS_CODE_UNKNOWN,
+                                        STATUS_CODE_ON_TIME,
+                                        STATUS_CODE_LATE_AIRLINE,
+                                        STATUS_CODE_LATE_WEATHER,
+                                        STATUS_CODE_LATE_TECHNICAL,
+                                        STATUS_CODE_LATE_OTHER
+                                       ];
+
+// number of oracles
+const NUM_ORACLES                    = 30;
+const ORACLE_STAKE                   = web3.utils.toWei('1',   'ether');
+var oracle_addrs                     = [];
+/**
+var registerOracles = async function () {
+
+    console.log("register oracles");
+  
+    var accounts = await web3.eth.getAccounts();
+    var start = accounts.length-1;
+    
+    for (var i =0; i< NUM_ORACLES; i++)
+    {
+        console.log("i ", i, " start - i ", start - i, " accounts ", accounts[start - i]);
+        await flightSuretyApp.methods.registerOracle({
+                                                        from : accounts[start - i],
+                                                        value: ORACLE_STAKE,
+                                                        gas:6600000,
+                                                        gasPrice:100000 });
+        let oracleIx = await flightSuretyApp.methods.getMyIndexes({from: accounts[start - i]});
+        console.log(`Oracle Registered ${i}:  ${oracleIx[0]}, ${oracleIx[1]}, ${oracleIx[2]}`); 
+        oracle_addrs.push(accounts[start - i]);
+        console.log("---");
+    
+    }
+   
+    for (var i = 0; i< NUM_ORACLES; i++)
+    {
+        console.log(" oracle ", i, " address ", oracle_addrs[i]);
+        let oracleIx = await flightSuretyApp.methods.getMyIndexes({from: oracle_addrs[i]});
+        console.log(`Oracle Registered ${i}:  ${oracleIx[0]}, ${oracleIx[1]}, ${oracleIx[2]}`);
+    }
+    
+    
+}
+
+registerOracles();
+**/
+flightSuretyApp.events.OracleRequest({
+    fromBlock: 'latest'
+  }, async function (error, event) {
+    if (error) 
+    {
+        console.log("oracle request error ", error);
+    }
+    console.log("oracle request detected EDIT **");
+    /**
+    for (var i = 0; i< oracle_addrs.length; i++)
+    {
+        var statusCode = STATUS_CODE_LATE_AIRLINE;
+        try
+        {
+        await flightSuretyApp.methods.submitOracleResponse(
+                            
+                                                event.returnValues.index,  
+                                                event.returnValues.airline,  
+                                                event.returnValues.flight, 
+                                                event.returnValues.timestamp.toNumber(),
+                                                statusCode, 
+                                                {from: oracle_addrs[i]});
+        } catch(e)
+        {
+            console.log("oracle response error ", e);
+        }
+        console.log("oracle response submitted from ",oracle_addrs[i]);
+        console.log("i ", i);
+   }**/
+   console.log("done oracle response");
+   
+});
+
+flightSuretyApp.events.OracleReport({
+    fromBlock: "latest"
+},  function(error, event) {
+    if(error) console.log(error);
+    console.log("oracle report event detected");
+    console.log(event);
+
+});
+
+
+const app = express();
+app.get('/api', (req, res) => {
+    res.send({
+      message: 'An API for use with your Dapp!'
+    })
+})
+
+export default app;
+
+

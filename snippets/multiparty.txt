@@ -1,0 +1,52 @@
+/**        
+
+    // require airline address toBeRegistered is not already registered.
+        
+        require(!flightSuretyData.isAirlineRegistered(toBeRegistered), "Airline cannot be registered twice.");
+        
+        // require toBeRegistered airline address not trivially 0
+        
+        require(toBeRegistered != address(0), "Airline has address 0 which is not a valid address.");
+        
+        bool success = false; // true if airline has been registered
+        
+        if (flightSuretyData.returnRegisteredAirlinesCount() <= MULTI_CNS)
+        {
+            flightSuretyData.registerAirline(toBeRegistered);
+            success = true;
+        }
+        else
+        {
+            // Multiparty consensus required.
+            
+            bool isDuplicate = false;
+            
+            for (uint i = 0; i< voteTally[toBeRegistered].length; i++) 
+            {
+                if (voteTally[toBeRegistered][i] == msg.sender)
+                {
+                    isDuplicate = true;
+                    break;
+                }
+            }
+            
+            require(!isDuplicate, "Caller has already voted for this airline.");
+            
+            /** 
+                Add new voter for toBeRegistered address
+            **/
+            
+            voteTally[toBeRegistered].push(msg.sender);
+            
+            
+            // Number of voters for this airline must be >= 50%
+            if (voteTally[toBeRegistered].length>= flightSuretyData.returnRegisteredAirlinesCount().div(2))
+            {
+                
+                flightSuretyData.registerAirline(toBeRegistered);
+                success = true;
+            }
+        
+        }
+        
+        **/  

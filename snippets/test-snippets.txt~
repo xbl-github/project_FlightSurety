@@ -1,0 +1,11 @@
+//var fund1 = await config.flightSuretyData.getFundAmount (config.firstAirline);
+//fund1 = web3.utils.fromWei(fund1, 'ether');
+
+//console.log("fund1 ", fund1, " fund amount ", fundAmount)   
+//await config.flightSuretyData.fund({from:config.firstAirline, value: fundAmount });
+//await config.flightSuretyApp.fundInsurance({from:config.firstAirline, value: fundAmount })
+//fund1 = await config.flightSuretyData.getFundAmount (config.firstAirline)
+
+//fund1 = web3.utils.fromWei(fund1, 'ether');
+
+//console.log("fund1 ", fund1  ); 

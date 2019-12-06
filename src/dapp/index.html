@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>FlightSurety</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#">FlightSurety</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+
+    <main class="topcontainer">
+        <! div id="display-wrapper" class="row top-20" ">
+        <! /div>
+        
+        <h2>1. Operational Status </h2>
+        
+        <div>
+            <label> Check if Contract is Operational: </label> 
+            <span id="operational-status" > </span>
+       </div>
+       <hr>     
+       <! -------------------------------------------------------->
+        <h2>2. Airline Accounts </h2>
+        
+        <div><! class="row top-20">
+        <table>
+            <tr>
+                <th><label>Available Airlines</label>
+                <select id="available-airlines-drop-down" ><option class="empty-first-option"></option></select></th> 
+            </tr>
+            
+             
+            <tr>
+               <th>
+                <div  id="airline-reg-status-update">
+                </div><! display airline registration info >
+              </th>
+           </tr>
+           <tr>
+                <th>
+                <div></div>
+                <div >Registration of fifth and subsequent airlines requires multi-party consensus of 50% of funded (which are also registered) airlines.</div>
+               </th>            
+            </tr>
+           <tr>
+              <th>
+                <btn class="btn btn-primary" id="reg-airline"> Register Airline </btn> 
+              </th>
+           </tr>
+           <tr>
+               <th>
+                <div  id="airline-reg-status">
+                </div><! display airline registration info >
+              </th>
+           </tr>
+           <tr>
+           
+            <tr>
+                <th><label  >Registered Airlines</label>
+                    <select id="registered-airlines-drop-down" >
+                        <option class="empty-first-option"></option>
+                    </select>
+                </th>
+            
+            </tr>
+            
+            
+            
+            <tr>
+                
+                <th>
+                    <btn class="btn btn-primary" id="fund-airline"> Fund Airline </btn> 
+                    <label>Click <q>Fund Airline</q> to fund a registered airline.</label>
+                
+                </th>
+               
+            </tr>
+            <tr>
+               <th>
+                <label id="fund-airline-status">
+                </label><! display airline registration info >
+              </th>
+           </tr>
+        </table>
+        </div>
+       
+        <hr>
+        <! -------------------------------------------------------->
+        <h2>3. Funded Airlines</h2>
+   
+        <div><! class="row top-20">
+        <table>
+            <tr>
+                <th>
+                
+                <label  id="dropdown">Funded Airlines</label>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                <select id="funded-airlines-drop-down" ><option class="empty-first-option"></option></select>
+                </th>
+           </tr>
+           
+           <tr>
+              <th>     
+                 <p>Any <q>funded</q> airline (a registered airline that has funded 10 ethers to the insurance fund) can register another airline.</p>
+                 <p>Select a funded airline, then select an available airline that is not registered to register it.</p>
+                 <p>If multiparty consensus is in effect, cilcking Register Airline gives one vote from the selected funded airline.</p>
+
+              </th>
+             </tr> 
+             <tr>
+                <th>
+                
+                <btn class="btn btn-primary" id="view-total-fund"> View Total Fund </btn> 
+                <label id="total-fund-status"></label>
+               </th>
+            </tr>
+            <tr>
+                <th><label  id="dropdown">Select an Available Flight from this Funded Airline to Register</label></th>
+            </tr>
+            <tr>
+                <th><select id="available-flights-drop-down"><option class="empty-first-option"></option></select></th>
+            </tr>
+            <tr>
+                <th>
+                <btn class="btn btn-primary" id="register-flight-button">Register Flight</btn>
+                </th>
+            </tr>
+            <tr>
+                <th><label id="choose-reg-flight" >No Registered Flights Available</label></th>
+            </tr>
+            <tr>
+                <th><select id="registered-flights-drop-down"><option class="empty-first-option"></option></select></th>
+            </tr>
+            <tr>
+                <th>
+                <label id="reg-flight-status"> </label>
+                </th>
+            </th>
+            
+        </table>
+        <!/div>
+                
+        <! -------------------------------------------------------->
+        <hr>
+        <h2>4. Flight Surety Insurance for Chosen Flight Above </h2>
+        
+         
+        <table>
+        <tr>
+            <th><label  id="dropdown">Select a Passenger Account</label> </th>
+            <th><select id="current-passengers-drop-down"><option class="empty-first-option"></option></select></th> 
+        </tr>
+            <tr>
+            <th><label>Enter Premium (less than or equal to 1 ether)</label> </th>
+            <th>
+                <input id="premium-amount"></input>    
+                <btn class="btn btn-primary" id="buy-insurance">Buy Insurance</btn>  
+            </th>
+            </tr>
+            
+        <table>
+        <div id="premium-status"></div>
+        <div>
+            <p>Click <q>View Premium Paid</q> to see premium paid for a particular flight by a passenger for flight surety insurance.</p>
+        </div>
+        <div>
+            <btn class="btn btn-primary" id="view-premium">View Premium Paid</btn>
+        </div>
+       
+        <div>
+            <p>Click <q>View Benefit</q> to see if any benefit has been credited to a passenger for a particular flight.</p>
+            <p>Click <q>Withdraw Benefit</q> to get benefit deposited in a passenger's account.</p>
+        </div>
+        
+            <btn class="btn btn-primary" id="view-benefit">View Benefit</btn>
+            <btn class="btn btn-secondary" id="withdraw-benefit">Withdraw Benefit</btn>
+            
+        </div>
+        <div id="insurance-status"> </div>
+          
+        
+        
+        
+        <! -------------------------------------------------------->
+        <hr>
+        <h2>5. Request Flight Status From Oracles </h2>
+        <div>
+            <p>Passenger accounts will automatically be credited when flight is delayed (status code: STATUS_CODE_LATE_AIRLINE).</p>
+            <div>
+                <btn class="btn btn-primary" id="submit-oracle">Submit to Oracles</btn></th>
+            </div>
+            <div id="check-flight-display"> </div> <! display flight status >
+        
+        </div>
+    </main>
+
+</body>
+
+</html>
